@@ -34,7 +34,7 @@
 # 
 # ==Usage
 # 
-#     LiveF1::StreamParser.new.run
+# See bin/live-f1 for usage examples
 # 
 module LiveF1
 
