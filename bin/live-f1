@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(
+File.join(File.dirname(__FILE__), %w[.. lib live-f1]))
+
+## This sample usage of the library loads the most recent logfile and uses the
+# timestamp packets as an indicator of how fast to replay the packets to screen.
+# 
+# Note that the packets themselves are not timestamped so in this simple example
+# we interpolate them as evenly spaced between timestamp packets
+
+timestamp = nil
+packets = []
+LiveF1::StreamParser.new("").run do |is_live, packet|
+	packets << packet
+	case packet
+	when LiveF1::Packet::Sys::Timestamp
+		t_start = timestamp || packet.timestamp
+		t_end = packet.timestamp
+		t_diff = t_end - t_start
+
+		# The interval is the difference in time between the last 2 timestamps, divided
+		# by the number of packets between the timestamps. This is then divided by 4 to
+		# speed up the replay
+		interval = t_diff.to_f / (packets.length) / 4
+
+		while p = packets.shift
+			puts p.inspect
+			sleep interval
+		end
+		timestamp = packet.timestamp
+	end
+end
+
+## This example shows how simple it is to connect to the "live" timing stream
+# 
+# LiveF1::StreamParser.new do |source|
+# 	source.username = "livetimingusername@example.com"
+# 	source.password = "password"
+# end.run do |is_live, packet|
+# 	puts packet
+# end
+
