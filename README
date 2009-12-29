@@ -9,6 +9,12 @@ objects describing the stream
 
 An account on formula1.com is still required
 
+== INSTALL
+
+A couple of examples of use are given in ./bin/live-f1, by default it will
+replay the packets from the 2009 Abu Dhabi grand prix at 4x speed out to
+screen.
+
 == FEATURES/PROBLEMS:
 
 * TODO

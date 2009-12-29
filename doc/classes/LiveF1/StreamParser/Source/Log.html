@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: LiveF1::StreamParser::Source::Log</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">LiveF1::StreamParser::Source::Log</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../../files/lib/live-f1/stream_parser_rb.html">
+                lib/live-f1/stream_parser.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Source
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+A <a href="Log.html">Log</a> source is intented to be used to play back a
+previously session where the live stream has been saved.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000039">decryption_key</a>&nbsp;&nbsp;
+      <a href="#M000040">keyframe</a>&nbsp;&nbsp;
+      <a href="#M000037">latest_infile</a>&nbsp;&nbsp;
+      <a href="#M000038">new</a>&nbsp;&nbsp;
+      <a href="#M000041">read_bytes</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000037" class="method-detail">
+        <a name="M000037"></a>
+
+        <div class="method-heading">
+          <a href="Log.src/M000037.html" target="Code" class="method-signature"
+            onclick="popupCode('Log.src/M000037.html');return false;">
+          <span class="method-name">latest_infile</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Find the last entry in the last folder in data
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000038" class="method-detail">
+        <a name="M000038"></a>
+
+        <div class="method-heading">
+          <a href="Log.src/M000038.html" target="Code" class="method-signature"
+            onclick="popupCode('Log.src/M000038.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(infile)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000039" class="method-detail">
+        <a name="M000039"></a>
+
+        <div class="method-heading">
+          <a href="Log.src/M000039.html" target="Code" class="method-signature"
+            onclick="popupCode('Log.src/M000039.html');return false;">
+          <span class="method-name">decryption_key</span><span class="method-args">(session)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns the decryption key for a given session
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000040" class="method-detail">
+        <a name="M000040"></a>
+
+        <div class="method-heading">
+          <a href="Log.src/M000040.html" target="Code" class="method-signature"
+            onclick="popupCode('Log.src/M000040.html');return false;">
+          <span class="method-name">keyframe</span><span class="method-args">(number = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a <a href="Log.html#M000038">new</a> <a
+href="../Source.html">Source</a> representing the specified <a
+href="Log.html#M000040">keyframe</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000041" class="method-detail">
+        <a name="M000041"></a>
+
+        <div class="method-heading">
+          <a href="Log.src/M000041.html" target="Code" class="method-signature"
+            onclick="popupCode('Log.src/M000041.html');return false;">
+          <span class="method-name">read_bytes</span><span class="method-args">(number)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Reads a certain number of bytes from the source
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
