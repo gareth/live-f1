@@ -1,6 +1,9 @@
 require 'timeout'
 require 'socket'
 require 'open-uri'
+require 'pathname'
+require 'fileutils'
+require 'date'
 
 module LiveF1
 
@@ -154,16 +157,33 @@ module LiveF1
 					@password = opts[:password]
 					@host     = opts[:host] || HOST
 					@port     = opts[:port] || PORT
+					@log_dir  = Pathname.new('data').join(Date.today.strftime("%Y%m%d"))
+					# We open this log file now to stream into it when #read_bytes is called
+					# Ruby will close open files when the script stops, but maybe need a better solution?
+					@log_file = File.open(@log_dir.join("#{Time.now.to_f}.bin"), "w")
 				end
 
 				# Returns the decryption key for a given session.
 				def decryption_key(session)
-					open("http://live-timing.formula1.com/reg/getkey/#{session}.asp?auth=#{auth}").read
+					key_data = open("http://live-timing.formula1.com/reg/getkey/#{session}.asp?auth=#{auth}").read
+					session_dir = @log_dir.join("session")
+					FileUtils.mkdir_p(session_dir)
+					File.open(session_dir.join("#{session}.key"), "w") do |f|
+						f << key_data
+					end
+					key_data
 				end
 
 				# Returns a new Source representing the specified keyframe.
 				def keyframe(number = nil)
-					Keyframe.new "http://#{@host}/keyframe#{ "_%05d" % number if number}.bin", self
+					keyframe_dir = @log_dir.join("keyframe")
+					FileUtils.mkdir_p(keyframe_dir)
+					keyframe_file = "keyframe#{ "_%05d" % number if number}.bin"
+					keyframe = Keyframe.new "http://#{@host}/#{keyframe_file}", self
+					File.open(keyframe_dir.join(keyframe_file), "w") do |f|
+						f << keyframe.data
+					end
+					keyframe
 				end
 
 				# Reads a certain number of bytes from the source.
@@ -173,6 +193,7 @@ module LiveF1
 						byte = read_byte or return nil # TODO: Check whether `return nil` is right
 						buffer << byte
 					end
+					@log_file << buffer
 					buffer
 				end
 
@@ -205,8 +226,11 @@ module LiveF1
 			end
 
 			class Keyframe < Source # :nodoc:
+				attr_reader :data
 				def initialize source, parent
 					@io = open(source)
+					@data = @io.read
+					@io.rewind
 					@parent = parent
 				end
 
