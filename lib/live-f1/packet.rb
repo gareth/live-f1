@@ -360,17 +360,24 @@ module LiveF1
 				include Packet::Type::Long
 				include Decryptable
 
-				# Returns the (0-based) line number of this commentary packet
-				def line_number
-					data.bytes.to_a[1]
+				# Is this the last line of this commentary string?
+				# 
+				# If not, the next packet should also be a Commentary packet continuing this text
+				def terminal?
+					data.bytes.to_a[1] == 1
 				end
 				
+        # Returns the line of commentary, which may only be a partial line if
+        # this commentary was split over multiple packets
 				def line
-					data[2..-1]
+          # The commentary packet encoding is all messed up. Its UTF-8 characters
+          # have been treated as Windows-1252 and then reconverted back to UTF-8.
+          # This is where we try and undo that.
+					data[2..-1].force_encoding("UTF-8").encode("Windows-1252").force_encoding("UTF-8")
 				end
 
 				def to_s
-					((line_number > 0 ? "..." : "") + line).inspect
+					"%s%s" % [line, (terminal? ? "" : "…")]
 				end
 			end
 
