@@ -333,19 +333,6 @@ module LiveF1
 					"Keyframe #{number}"
 				end
 
-				# def data= new_data
-				#   super
-				#   if $LOG
-				#     keyframe_dir = "tmp/keyframe/#{File.basename($LOG.path)}"
-				#     FileUtils.mkdir_p(keyframe_dir)
-				#     File.open("#{keyframe_dir}/keyframe_#{number}.bin", "w") do |f|
-				#       begin
-				#         f.write open("http://live-timing.formula1.com/keyframe_#{number}.bin")
-				#       rescue Exception => e
-				#       end
-				#     end
-				#   end
-				# end
 			end
 
 			# Commentary packets contain the commentary provided by the

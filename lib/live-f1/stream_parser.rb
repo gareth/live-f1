@@ -156,6 +156,7 @@ module LiveF1
 					@host     = opts[:host] || HOST
 					@port     = opts[:port] || PORT
 					@log_dir  = Pathname.new('data').join(Date.today.strftime("%Y%m%d"))
+					FileUtils.mkdir_p(@log_dir)
 					# We open this log file now to stream into it when #read_bytes is called
 					# Ruby will close open files when the script stops, but maybe need a better solution?
 					@log_file = File.open(@log_dir.join("#{Time.now.to_f}.bin"), "w")
