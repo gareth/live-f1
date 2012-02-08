@@ -417,12 +417,14 @@ module LiveF1
 
 				# An incomplete mapping of numeric IDs to metric descriptions
 				METRICS = {
-					17 => "Track temperature",
-					18 => "Air temperature",
-					21 => "Humidity",
-					28 => "Wind speed",
-					46 => "Air pressure",
-					56 => "Session time remaining",
+					11 => "Wet/dry",                # 0 for dry, 1 for wet
+					17 => "Track temperature",      # in ˚C
+					18 => "Air temperature",        # in ˚C
+					21 => "Humidity",               # in %
+					28 => "Wind speed",             # in m/s
+					31 => "Wind direction",         # in degrees clockwise from north
+					46 => "Air pressure",           # in mBar
+					56 => "Session time remaining", # as a h:mm:ss string
 				}
 
 				# Returns the numeric identifier for the relevant metric
