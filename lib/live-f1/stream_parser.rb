@@ -65,13 +65,11 @@ module LiveF1
 		# given bytes and shifts the salt accordingly.
 		# 
 		# Used internally by the stream parsing methods.
-		def decrypt bytes # :nodoc:
-			bytes = (bytes||"").dup
-			bytes.length.times do |i|
+		def decrypt data # :nodoc:
+			(data||"").bytes.map do |b|
 				@decryption_salt = (@decryption_salt >> 1) ^ (!(@decryption_salt & 0x01).zero? ? @decryption_key : 0)
-				bytes[i] ^= (@decryption_salt & 0xff)
-			end
-			bytes
+				b ^= (@decryption_salt & 0xff)
+			end.pack("c*")
 		end
 
 		# Consumes the specified number of bytes from the stream and returns them.

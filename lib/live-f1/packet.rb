@@ -1,3 +1,4 @@
+# encoding: utf-8
 module LiveF1
 
 	# The live timing data stream consists of sequential Packets of data, each
@@ -235,7 +236,7 @@ module LiveF1
 				include Decryptable
 
 				def to_s
-					"#{heading} - " + data.split(//).map { |s| "%02d" % s[0] }.join(",")
+					"#{heading} - " + data.split(//).map { |s| "%02d" % s.bytes.to_a[0] }.join(",")
 				end
 			end
 
@@ -300,7 +301,7 @@ module LiveF1
 				# Returns a symbol indicating the type of event started by this Packet
 				def event_type
 					EVENT_TYPES[
-						data[0].to_i
+						data.bytes.to_a[0]
 					]
 				end
 
@@ -361,7 +362,7 @@ module LiveF1
 
 				# Returns the (0-based) line number of this commentary packet
 				def line_number
-					data[1]
+					data.bytes.to_a[1]
 				end
 				
 				def line
@@ -396,7 +397,7 @@ module LiveF1
 				# Returns the number of seconds since the start of the session, as
 				# indicated by this packet
 				def timestamp
-					data.reverse.unpack("B*").first.to_i(2)
+					data.unpack("v").first
 				end
 
 				def to_s
@@ -446,7 +447,7 @@ module LiveF1
 				# 1-3:: The end of the corresponding lap sector
 				# 4::   The dedicated speed trap
 				def trap
-					data[0]
+					data.bytes.to_a[0]
 				end
 
 				# Returns an array of up to 6 [driver,speed] pairs, indicating the
@@ -508,16 +509,16 @@ module LiveF1
 			# Note that this might not be instantaneous if the stream is waiting on data
 			# from the server.
 			def initialize stream
-				bytes = stream.read_bytes 2
+				header_data = stream.read_bytes 2
 
-				raise "Expected 2 bytes from #{stream.inspect}, got #{bytes.to_s.length}" unless bytes.to_s.length == 2
-
-				header_bits = *bytes.to_s.reverse.unpack("B*")
+				raise "Expected 2 bytes from #{stream.inspect}, got #{header_data.to_s.length}" unless header_data.to_s.length == 2
+        
+				header_bits = header_data.to_s.reverse.unpack("B*").first
 				(_, @data, @packet_type, @car = header_bits.match(/^(.{7})(.{4})(.{5})$/).to_a.map { |s| s.to_i(2) }) or raise "Header too short"
 
 				@packet = Packet.from_header self
-				bytes = stream.read_bytes @packet.length
-				@packet.data = @packet.is_a?(Decryptable) ? stream.decrypt(bytes) : bytes
+				packet_data = stream.read_bytes @packet.length
+				@packet.data = @packet.is_a?(Decryptable) ? stream.decrypt(packet_data) : packet_data
 			end
 
 			def car?
