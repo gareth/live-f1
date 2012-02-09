@@ -38,6 +38,6 @@ end
 # 	source.username = "livetimingusername@example.com"
 # 	source.password = "password"
 # end.run do |is_live, packet|
-# 	puts packet
+# 	puts packet.inspect
 # end
 
