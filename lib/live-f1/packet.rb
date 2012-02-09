@@ -388,7 +388,7 @@ module LiveF1
 				include Packet::Type::Long
 				include Decryptable
 				
-				# Returns the relevant notice
+				# Returns the text of the relevant notice
 				def notice
 					data
 				end
