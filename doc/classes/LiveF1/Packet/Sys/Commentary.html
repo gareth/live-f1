@@ -86,8 +86,8 @@ provided by the live timing stream.
 <p>
 Each packet contains a maximum of 125 bytes of commentary. A commentary
 string longer than this will be transmitted in successive <a
-href="Commentary.html">Commentary</a> packets with consecutive <a
-href="Commentary.html#M000017">line</a> numbers
+href="Commentary.html">Commentary</a> packets with the final one having a
+specific bit set
 </p>
 
     </div>
@@ -99,9 +99,9 @@ href="Commentary.html#M000017">line</a> numbers
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000017">line</a>&nbsp;&nbsp;
-      <a href="#M000016">line_number</a>&nbsp;&nbsp;
-      <a href="#M000018">to_s</a>&nbsp;&nbsp;
+      <a href="#M000030">line</a>&nbsp;&nbsp;
+      <a href="#M000029">terminal?</a>&nbsp;&nbsp;
+      <a href="#M000031">to_s</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -131,44 +131,53 @@ href="Commentary.html#M000017">line</a> numbers
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000017" class="method-detail">
-        <a name="M000017"></a>
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
 
         <div class="method-heading">
-          <a href="Commentary.src/M000017.html" target="Code" class="method-signature"
-            onclick="popupCode('Commentary.src/M000017.html');return false;">
+          <a href="Commentary.src/M000030.html" target="Code" class="method-signature"
+            onclick="popupCode('Commentary.src/M000030.html');return false;">
           <span class="method-name">line</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
+          <p>
+Returns the <a href="Commentary.html#M000030">line</a> of commentary, which
+may only be a partial <a href="Commentary.html#M000030">line</a> if this
+commentary was split over multiple packets
+</p>
         </div>
       </div>
 
-      <div id="method-M000016" class="method-detail">
-        <a name="M000016"></a>
+      <div id="method-M000029" class="method-detail">
+        <a name="M000029"></a>
 
         <div class="method-heading">
-          <a href="Commentary.src/M000016.html" target="Code" class="method-signature"
-            onclick="popupCode('Commentary.src/M000016.html');return false;">
-          <span class="method-name">line_number</span><span class="method-args">()</span>
+          <a href="Commentary.src/M000029.html" target="Code" class="method-signature"
+            onclick="popupCode('Commentary.src/M000029.html');return false;">
+          <span class="method-name">terminal?</span><span class="method-args">()</span>
           </a>
         </div>
       
         <div class="method-description">
           <p>
-Returns the (0-based) <a href="Commentary.html#M000017">line</a> number of
-this commentary packet
+Is this the last <a href="Commentary.html#M000030">line</a> of this
+commentary string?
+</p>
+<p>
+If not, the next packet should also be a <a
+href="Commentary.html">Commentary</a> packet continuing this text
 </p>
         </div>
       </div>
 
-      <div id="method-M000018" class="method-detail">
-        <a name="M000018"></a>
+      <div id="method-M000031" class="method-detail">
+        <a name="M000031"></a>
 
         <div class="method-heading">
-          <a href="Commentary.src/M000018.html" target="Code" class="method-signature"
-            onclick="popupCode('Commentary.src/M000018.html');return false;">
+          <a href="Commentary.src/M000031.html" target="Code" class="method-signature"
+            onclick="popupCode('Commentary.src/M000031.html');return false;">
           <span class="method-name">to_s</span><span class="method-args">()</span>
           </a>
         </div>

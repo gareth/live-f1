@@ -340,7 +340,7 @@ module LiveF1
 			# 
 			# Each packet contains a maximum of 125 bytes of commentary. A
 			# commentary string longer than this will be transmitted in successive
-			# Commentary packets with consecutive line numbers
+			# Commentary packets with the final one having a specific bit set
 			#--
 			# TODO: Find out what the first byte of data represents.
 			class Commentary < Sys

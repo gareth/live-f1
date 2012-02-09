@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>keyframe (LiveF1::StreamParser::Source::Live)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/live-f1/stream_parser.rb, line 177</span>
+                                <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">keyframe</span>(<span class="ruby-identifier">number</span> = <span class="ruby-keyword kw">nil</span>)
+                                        <span class="ruby-identifier">keyframe_dir</span> = <span class="ruby-ivar">@log_dir</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;keyframe&quot;</span>)
+                                        <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-identifier">keyframe_dir</span>)
+                                        <span class="ruby-identifier">keyframe_file</span> = <span class="ruby-node">&quot;keyframe#{ &quot;_%05d&quot; % number if number}.bin&quot;</span>
+                                        <span class="ruby-identifier">keyframe</span> = <span class="ruby-constant">Keyframe</span>.<span class="ruby-identifier">new</span> <span class="ruby-node">&quot;http://#{@host}/#{keyframe_file}&quot;</span>, <span class="ruby-keyword kw">self</span>
+                                        <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">keyframe_dir</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">keyframe_file</span>), <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+                                                <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">keyframe</span>.<span class="ruby-identifier">data</span>
+                                        <span class="ruby-keyword kw">end</span>
+                                        <span class="ruby-identifier">keyframe</span>
+                                <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

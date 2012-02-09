@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (LiveF1::Packet::Header)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/live-f1/packet.rb, line 507</span>
+                        <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">stream</span>
+                                <span class="ruby-identifier">header_data</span> = <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read_bytes</span> <span class="ruby-value">2</span>
+
+                                <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Expected 2 bytes from #{stream.inspect}, got #{header_data.to_s.length}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">header_data</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>
+        
+                                <span class="ruby-identifier">header_bits</span> = <span class="ruby-identifier">header_data</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-value str">&quot;B*&quot;</span>).<span class="ruby-identifier">first</span>
+                                (<span class="ruby-identifier">_</span>, <span class="ruby-ivar">@data</span>, <span class="ruby-ivar">@packet_type</span>, <span class="ruby-ivar">@car</span> = <span class="ruby-identifier">header_bits</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp re">/^(.{7})(.{4})(.{5})$/</span>).<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_i</span>(<span class="ruby-value">2</span>) }) <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;Header too short&quot;</span>
+
+                                <span class="ruby-ivar">@packet</span> = <span class="ruby-constant">Packet</span>.<span class="ruby-identifier">from_header</span> <span class="ruby-keyword kw">self</span>
+                                <span class="ruby-identifier">packet_data</span> = <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">read_bytes</span> <span class="ruby-ivar">@packet</span>.<span class="ruby-identifier">length</span>
+                                <span class="ruby-ivar">@packet</span>.<span class="ruby-identifier">data</span> = <span class="ruby-ivar">@packet</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Decryptable</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">stream</span>.<span class="ruby-identifier">decrypt</span>(<span class="ruby-identifier">packet_data</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">packet_data</span>
+                        <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
