@@ -99,19 +99,13 @@ module LiveF1
 					@decryption_salt = INITIAL_DECRYPTION_SALT
 				when Packet::Sys::KeyFrame
 					@decryption_salt = INITIAL_DECRYPTION_SALT
+					begin
+						keyframe = source.keyframe(packet.number) # Load keyframe so it can be logged if necessary
+					rescue NotImplementedError => e
+					end
 				end
 
 				yield packet if block_given?
-
-				# case packet
-				# when Packet::Sys::KeyFrame
-				# 	begin
-				# 		parse source.keyframe(packet.number) do |p|
-				# 			yield p if block_given?
-				# 		end
-				# 	rescue NotImplementedError => e
-				# 	end
-				# end
 			end
 		rescue EOFError => e
 		ensure
