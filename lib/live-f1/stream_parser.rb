@@ -158,7 +158,7 @@ module LiveF1
 
 				# Returns the decryption key for a given session.
 				def decryption_key(session)
-					key_data = open("http://live-timing.formula1.com/reg/getkey/#{session}.asp?auth=#{auth}").read
+					key_data = open("http://#{host}/reg/getkey/#{session}.asp?auth=#{auth}").read
 					session_dir = @log_dir.join("session")
 					FileUtils.mkdir_p(session_dir)
 					File.open(session_dir.join("#{session}.key"), "w") do |f|
@@ -172,7 +172,7 @@ module LiveF1
 					keyframe_dir = @log_dir.join("keyframe")
 					FileUtils.mkdir_p(keyframe_dir)
 					keyframe_file = "keyframe#{ "_%05d" % number if number}.bin"
-					keyframe = Keyframe.new "http://#{@host}/#{keyframe_file}", self
+					keyframe = Keyframe.new "http://#{host}/#{keyframe_file}", self
 					File.open(keyframe_dir.join(keyframe_file), "w") do |f|
 						f << keyframe.data
 					end
@@ -204,14 +204,14 @@ module LiveF1
 				end
 
 				def socket
-					@socket ||= TCPSocket.open @host, @port
+					@socket ||= TCPSocket.open host, port
 				rescue SocketError
 					# TODO: raise a specific error
 					raise "Unable to open connection to #{@host} with given parameters"
 				end
 
 				def auth
-					response = Net::HTTP.post_form URI.parse("http://#{@host}/reg/login.asp"), {"email" => @username, "password" => @password}
+					response = Net::HTTP.post_form URI.parse("http://#{host}/reg/login.asp"), {"email" => username, "password" => password}
 					CGI::Cookie.parse(response["Set-Cookie"])["USER"].first
 				rescue # TODO: rescue a specific exception
 					# Implicit nil
