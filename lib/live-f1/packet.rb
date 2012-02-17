@@ -382,7 +382,7 @@ module LiveF1
 			end
 
 			# Once a session is in progress, Timestamp packets are generated at
-			# regular intervals to indicate how long has passed since the start of
+			# irregular intervals to indicate how long has passed since the start of
 			# the session
 			class Timestamp < Sys
 				include Packet::Type::Timestamp
