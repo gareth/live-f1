@@ -11,7 +11,7 @@ File.join(File.dirname(__FILE__), %w[.. lib live-f1]))
 
 timestamp = nil
 packets = []
-LiveF1::StreamParser.new("").run do |is_live, packet|
+LiveF1::RaceStream.new("").run do |packet|
 	packets << packet
 	case packet
 	when LiveF1::Packet::Sys::Timestamp
