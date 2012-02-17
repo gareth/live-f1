@@ -67,8 +67,8 @@ module LiveF1
 		# Used internally by the stream parsing methods.
 		def decrypt data # :nodoc:
 			(data||"").bytes.map do |b|
-				@decryption_salt = (@decryption_salt >> 1) ^ (!(@decryption_salt & 0x01).zero? ? @decryption_key : 0)
-				b ^= (@decryption_salt & 0xff)
+				@decryption_salt = (@decryption_salt >> 1) ^ ((@decryption_salt & 0x01).zero? ? 0 : @decryption_key)
+				b ^ (@decryption_salt & 0xff)
 			end.pack("c*")
 		end
 
