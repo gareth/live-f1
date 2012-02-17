@@ -139,42 +139,42 @@ module LiveF1
 				HOST = "live-timing.formula1.com"
 				PORT = 4321
 
-				attr_accessor :username, :password, :host, :port
+				attr_accessor :username, :password, :host, :port, :log_dir
 
 				# Initialises a live source with a specified username and password,
 				# and optional host and port.
 				def initialize(opts = nil)
 					opts = {} unless opts.respond_to?(:[])
-					@username = opts[:username]
-					@password = opts[:password]
-					@host     = opts[:host] || HOST
-					@port     = opts[:port] || PORT
-					@log_dir  = Pathname.new('data').join(Date.today.strftime("%Y%m%d"))
-					FileUtils.mkdir_p(@log_dir)
-					# We open this log file now to stream into it when #read_bytes is called
-					# Ruby will close open files when the script stops, but maybe need a better solution?
-					@log_file = File.open(@log_dir.join("#{Time.now.to_f}.bin"), "w")
+					self.username = opts[:username]
+					self.password = opts[:password]
+					self.host     = opts[:host] || HOST
+					self.port     = opts[:port] || PORT
+					self.log_dir  = opts[:log_dir] if opts[:log_dir]
 				end
 
 				# Returns the decryption key for a given session.
 				def decryption_key(session)
 					key_data = open("http://#{host}/reg/getkey/#{session}.asp?auth=#{auth}").read
-					session_dir = @log_dir.join("session")
-					FileUtils.mkdir_p(session_dir)
-					File.open(session_dir.join("#{session}.key"), "w") do |f|
-						f << key_data
+					if log_dir
+						session_dir = log_dir.join("session")
+						FileUtils.mkdir_p(session_dir)
+						File.open(session_dir.join("#{session}.key"), "w") do |f|
+							f << key_data
+						end
 					end
 					key_data
 				end
 
 				# Returns a new Source representing the specified keyframe.
 				def keyframe(number = nil)
-					keyframe_dir = @log_dir.join("keyframe")
-					FileUtils.mkdir_p(keyframe_dir)
 					keyframe_file = "keyframe#{ "_%05d" % number if number}.bin"
 					keyframe = Keyframe.new "http://#{host}/#{keyframe_file}", self
-					File.open(keyframe_dir.join(keyframe_file), "w") do |f|
-						f << keyframe.data
+					if log_dir
+						keyframe_dir = @log_dir.join("keyframe")
+						FileUtils.mkdir_p(keyframe_dir)
+						File.open(keyframe_dir.join(keyframe_file), "w") do |f|
+							f << keyframe.data
+						end
 					end
 					keyframe
 				end
@@ -186,8 +186,18 @@ module LiveF1
 						byte = read_byte or return nil # TODO: Check whether `return nil` is right
 						buffer << byte
 					end
-					@log_file << buffer
+					@log_file << buffer if @log_file
 					buffer
+				end
+
+				# Sets the base directory for live data log files to be stored
+				def log_dir= log_directory
+					@log_dir = Pathname.new(log_directory).join(Date.today.strftime("%Y%m%d"))
+					FileUtils.mkdir_p(@log_dir)
+
+					# We open this log file now to stream into it when #read_bytes is called
+					# Ruby will close open files when the script stops, but maybe need a better solution?
+					@log_file = File.open(@log_dir.join("#{Time.now.to_f}.bin"), "w")
 				end
 
 				private

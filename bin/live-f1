@@ -37,6 +37,7 @@ end
 # LiveF1::StreamParser.new do |source|
 # 	source.username = "livetimingusername@example.com"
 # 	source.password = "password"
+# 	source.log_dir  = "./data"
 # end.run do |is_live, packet|
 # 	puts packet.inspect
 # end
