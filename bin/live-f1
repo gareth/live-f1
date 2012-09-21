@@ -35,8 +35,8 @@ packets = []
 # This example shows how simple it is to connect to the "live" timing stream
 
 LiveF1::StreamParser.new do |source|
-	source.username = "richard@xanox.net"
-	source.password = "Bli22ard!"
+	source.username = ""
+	source.password = ""
 end.run do |is_live, packet|
 	puts packet.inspect	
 end
