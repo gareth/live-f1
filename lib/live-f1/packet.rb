@@ -411,13 +411,13 @@ module LiveF1
 
 				# An incomplete mapping of numeric IDs to metric descriptions
 				METRICS = {
-					11 => "Wet/dry",                # 0 for dry, 1 for wet
+					8 => "Wet/dry",                 # 0 for dry, 1 for wet
 					17 => "Track temperature",      # in ˚C
 					18 => "Air temperature",        # in ˚C
 					21 => "Humidity",               # in %
 					28 => "Wind speed",             # in m/s
 					31 => "Wind direction",         # in degrees clockwise from north
-					46 => "Air pressure",           # in mBar
+					54 => "Air pressure",           # in mBar
 					56 => "Session time remaining", # as a h:mm:ss string
 				}
 
